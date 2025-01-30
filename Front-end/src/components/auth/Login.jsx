@@ -9,6 +9,8 @@ import axios from 'axios'
 import { USER_API_END_POINT } from '../../utils/constant'
 import { toast } from 'sonner'
 import { useDispatch, useSelector } from 'react-redux'
+import { setLoading } from '../../redux/authSlice'
+import { Loader2 } from 'lucide-react'
 
 const Login = () => {
     const [input, setInput] = useState({
@@ -17,8 +19,9 @@ const Login = () => {
         role: "",
     });
 
-    
+    const {loading} =useSelector(store => store.auth) ;
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     // whenever these handlers are called they are doing the following 
     // putting all the rest of the input values same as before but changing the targetted value only.
@@ -30,7 +33,7 @@ const Login = () => {
         e.preventDefault();
         
         try {
-            
+            dispatch(setLoading(true)) ;
             const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
                 headers: { 'Content-Type': "application/json" },
                 withCredentials: true, // Necessary if your server sends cookies
@@ -54,7 +57,9 @@ const Login = () => {
               // Something went wrong in setting up the request
               console.error('Error:', error.message);
             } ;
-          } ; 
+          } finally {
+            dispatch(setLoading(false)) ;
+          }; 
     } ;
 
   return (
@@ -112,7 +117,15 @@ const Login = () => {
                             </div> 
                         </RadioGroup>
                     </div>
-                    <Button type="submit" className="w-full my-4 bg-black text-white">Login</Button>
+                    {
+                        loading ? 
+                            <Button className="w-full my-4 "> 
+                                <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                                Please Wait
+                            </Button>
+                            :
+                            <Button type="submit" className="w-full my-4 bg-black text-white">Login</Button>
+                    }
                     <span className='text-sm'>Don't have an account? <Link to="/signup" className='text-blue-600'>Signup</Link></span>
                 </form>
         </div>
