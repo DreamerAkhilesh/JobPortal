@@ -4,7 +4,7 @@ const authSlice = createSlice({
     name:"auth",
     initialState:{
         loading:false,
-        user:null
+        user:null // When before login 
     },
     reducers:{
         // actions
@@ -13,7 +13,7 @@ const authSlice = createSlice({
         },
         setUser:(state, action) => {
             state.user = action.payload;
-        }
+        } // after login the page should set in way that it is login by the user
     }
 });
 export const {setLoading, setUser} = authSlice.actions;
