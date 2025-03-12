@@ -1,30 +1,31 @@
-import jwt from 'jsonwebtoken' ;
+import jwt from 'jsonwebtoken';
 
-const isAuthenticated = async(req , res , next) => {
+const isAuthenticated = async (req, res, next) => {
     try {
-        const token = req.cookies.token ;
-        if(!token) {
-            return res.status(401).json({
-                message:'The User is unAuthenticated',
-                success: false
-            }) ;
-        } ;
-        // if got authenticated
-        const decode = await jwt.verify(token , process.env.SECRET_KEY) ;
-        if(!decode) {
-            return res.status(401).json({
-                message:'Invalid token',
-                success: false
-            }) ;
-        } ;
+        // Get token from cookies
+        const token = req.cookies.token;
 
-        // had stored user id within token previously so now will access it 
-        req.id = decode.userId ; // store the id in req's id
-        next() ;
-    } 
-    catch (error) {
-        console.log(error) ;
+        // Check if token exists
+        if (!token) {
+            return res.status(401).json({
+                message: 'The User is Unauthenticated',
+                success: false,
+            });
+        }
+
+        // Decode token to get user information
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);
+
+        // If token is valid, decoded will have the user data
+        req.userId = decoded.userId; // store the user ID in the request object
+        next(); // Proceed to the next middleware or route handler
+    } catch (error) {
+        console.error('Authentication Error:', error);
+        return res.status(401).json({
+            message: 'Invalid or expired token',
+            success: false,
+        });
     }
-}
+};
 
-export default isAuthenticated ;
+export default isAuthenticated;

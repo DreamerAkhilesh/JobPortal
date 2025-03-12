@@ -15,7 +15,7 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     const { user } = useSelector(store => store.auth);
 
     const [input, setInput] = useState({
-        fullname: user?.fullname || "",
+        fullName: user?.fullName || "",
         email: user?.email || "",
         phoneNumber: user?.phoneNumber || "",
         bio: user?.profile?.bio || "",
@@ -33,41 +33,123 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
         setInput({ ...input, file })
     }
 
+    // const submitHandler = async (e) => {
+    //     e.preventDefault();  // To avoid page refresh 
+    //     const formData = new FormData();
+    //     formData.append("fullName", input.fullName);
+    //     formData.append("email", input.email);
+    //     formData.append("phoneNumber", input.phoneNumber);
+    //     formData.append("bio", input.bio);
+    //     formData.append("skills", input.skills);
+    //     if (input.file) {
+    //         formData.append("file", input.file);
+    //     }
+    //     try {
+    //         setLoading(true);
+    //         const res = await axios.put(`${USER_API_END_POINT}/profile/update`, formData, {
+    //             headers: {
+    //                 'Content-Type': 'multipart/form-data'
+    //             },
+    //             withCredentials: true
+    //         });
+            
+    //         if (res.data.success) { // will get a response from backend
+    //             dispatch(setUser(res.data.user)); // update the user with the one from backend
+    //             toast.success(res.data.message);
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //         toast.error(error.response.data.message);
+    //     } finally{
+    //         setLoading(false); 
+    //     }
+    //     setOpen(false); 
+    //     console.log(input);
+    // }
+
+    // const submitHandler = async (e) => {
+    //     e.preventDefault();  // To avoid page refresh 
+    
+    //     // Ensure skills are sent as an array (split by commas)
+    //     const skillsArray = input.skills.split(',').map(skill => skill.trim()); // split by commas, remove extra spaces
+    
+    //     const formData = new FormData();
+    //     formData.append("fullName", input.fullName);
+    //     formData.append("email", input.email); // Check backend validation for email update
+    //     formData.append("phoneNumber", input.phoneNumber);
+    //     formData.append("bio", input.bio);
+    //     formData.append("skills", JSON.stringify(skillsArray)); // Convert to array
+    
+    //     if (input.file) {
+    //         formData.append("file", input.file);
+    //     }
+    
+    //     try {
+    //         setLoading(true);
+    //         const res = await axios.put(`${USER_API_END_POINT}/profile/update`, formData, {
+    //             headers: {
+    //                 'Content-Type': 'multipart/form-data',
+    //             },
+    //             withCredentials: true,
+    //         });
+            
+    //         if (res.data.success) { // will get a response from backend
+    //             dispatch(setUser(res.data.user)); // update the user with the one from backend
+    //             toast.success(res.data.message);
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //         toast.error(error.response?.data?.message || 'Error updating profile');
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    
+    //     setOpen(false); 
+    //     console.log(input);
+    // }
+
     const submitHandler = async (e) => {
-        e.preventDefault();
+        e.preventDefault();  // To avoid page refresh 
+    
+        // Ensure skills are sent as an array (split by commas)
+        const skillsArray = input.skills.split(',').map(skill => skill.trim()); // split by commas, remove extra spaces
+    
         const formData = new FormData();
-        formData.append("fullname", input.fullname);
-        formData.append("email", input.email);
+        formData.append("fullName", input.fullName);
+        formData.append("email", input.email); // Check backend validation for email update
         formData.append("phoneNumber", input.phoneNumber);
         formData.append("bio", input.bio);
-        formData.append("skills", input.skills);
+        formData.append("skills", skillsArray); // Send as an array of strings directly
+    
         if (input.file) {
             formData.append("file", input.file);
         }
+    
         try {
             setLoading(true);
-            const res = await axios.post(`${USER_API_END_POINT}/profile/update`, formData, {
+            const res = await axios.put(`${USER_API_END_POINT}/profile/update`, formData, {
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data',
                 },
-                withCredentials: true
+                withCredentials: true,
             });
-            if (res.data.success) {
-                dispatch(setUser(res.data.user));
+    
+            if (res.data.success) { // will get a response from backend
+                dispatch(setUser(res.data.user)); // update the user with the one from backend
                 toast.success(res.data.message);
             }
         } catch (error) {
             console.log(error);
-            toast.error(error.response.data.message);
-        } finally{
+            toast.error(error.response?.data?.message || 'Error updating profile');
+        } finally {
             setLoading(false);
         }
-        setOpen(false);
+    
+        setOpen(false); 
         console.log(input);
     }
-
-
-
+    
+    
     return (
         <div>
             <Dialog open={open}>
@@ -81,9 +163,9 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
                                 <Label htmlFor="name" className="text-right">Name</Label>
                                 <Input
                                     id="name"
-                                    name="name"
+                                    name="fullName"
                                     type="text"
-                                    value={input.fullname}
+                                    value={input.fullName}
                                     onChange={changeEventHandler}
                                     className="col-span-3"
                                 />
