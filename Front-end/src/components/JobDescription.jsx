@@ -35,6 +35,7 @@ const JobDescription = () => {
         }
     }
 
+    // no need to make seperate hook for extracting single job
     useEffect(()=>{
         const fetchSingleJob = async () => {
             try {

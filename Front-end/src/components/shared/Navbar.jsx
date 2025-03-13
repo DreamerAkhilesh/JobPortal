@@ -56,17 +56,17 @@ function Navbar() {
                 ) : (<Popover>
                     <PopoverTrigger asChild>
                     <Avatar className="cursor-pointer">
-                        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn"></AvatarImage>
+                        <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn"></AvatarImage>
                     </Avatar>
                     </PopoverTrigger>
                     <PopoverContent className="w-80 ">
                         <div className="flex gap-4 space-y-2">
                             <Avatar className="cursor-pointer">
-                                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn"></AvatarImage>
+                                <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn"></AvatarImage>
                             </Avatar>
                             <div className="">
-                                <h4 className="font-medium">Akhilesh Pratap Singh</h4>    
-                                <p className="text-sm text-muted-foreground">Lorem ipsum dolor sit amet.</p>                    
+                                <h4 className="font-medium">{user?.fullName}</h4>    
+                                <p className="text-sm text-muted-foreground">{user?.profile?.bio}</p>                    
                             </div>
                         </div>
                         <div className="flex flex-col my-2 text-gray-600">

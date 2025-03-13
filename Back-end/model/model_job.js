@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const jobSchema = mongoose.Schema(
     {
-        fullName:{
+        title:{
             type:String,
             required:true 
         },
@@ -13,7 +13,7 @@ const jobSchema = mongoose.Schema(
         requirements:[{
             type:String
         }],
-        experienceLevel:{
+        experience:{
             type:Number,
             required:true
         },

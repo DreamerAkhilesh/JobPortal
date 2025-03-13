@@ -1,6 +1,8 @@
 import User from '../model/model_user.js' ;
 import bcrypt from 'bcryptjs' ;
 import jwt from 'jsonwebtoken' ;
+import getDataUri from '../utils/datauri.js';
+import cloudinary from '../utils/cloudinary.js';
 
 export const register = async(req , res) => {
     try {
@@ -12,6 +14,10 @@ export const register = async(req , res) => {
                 success: false
             });
         }
+
+        const file = req.file;
+        const fileUri = getDataUri(file);
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
 
         const userExists = await User.findOne({ email });
         if (userExists) {
@@ -28,7 +34,10 @@ export const register = async(req , res) => {
             email,
             phoneNumber,
             password: hashedPassword,
-            role
+            role,
+            profile:{
+                profilePhoto:cloudResponse.secure_url,
+            }    
         });
 
         return res.status(201).json({
@@ -241,6 +250,10 @@ export const updateProfile = async (req, res) => {
     try {
         const { fullName, email, phoneNumber, bio, skills } = req.body;
 
+        const file = req.file ;
+        const fileUri = getDataUri(file) ;
+        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+
         if (!fullName || !email || !phoneNumber || !bio || !skills) {
             return res.status(400).json({
                 message: 'Missing required fields',
@@ -279,6 +292,11 @@ export const updateProfile = async (req, res) => {
         user.phoneNumber = phoneNumber || user.phoneNumber;
         user.profile.bio = bio || user.profile.bio;
         user.profile.skills = skillArray;
+        // resume comes later here...
+        if(cloudResponse){
+            user.profile.resume = cloudResponse.secure_url // save the cloudinary url
+            user.profile.resumeOriginalName = file.originalname // Save the original file name
+        }
 
         await user.save();
 

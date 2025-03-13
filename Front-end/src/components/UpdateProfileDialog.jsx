@@ -111,15 +111,15 @@ const UpdateProfileDialog = ({ open, setOpen }) => {
     const submitHandler = async (e) => {
         e.preventDefault();  // To avoid page refresh 
     
-        // Ensure skills are sent as an array (split by commas)
-        const skillsArray = input.skills.split(',').map(skill => skill.trim()); // split by commas, remove extra spaces
+        // // Ensure skills are sent as an array (split by commas)
+        // const skillsArray = input.skills.split(',').map(skill => skill.trim()); // split by commas, remove extra spaces
     
         const formData = new FormData();
         formData.append("fullName", input.fullName);
         formData.append("email", input.email); // Check backend validation for email update
         formData.append("phoneNumber", input.phoneNumber);
         formData.append("bio", input.bio);
-        formData.append("skills", skillsArray); // Send as an array of strings directly
+        formData.append("skills", input.skills); 
     
         if (input.file) {
             formData.append("file", input.file);

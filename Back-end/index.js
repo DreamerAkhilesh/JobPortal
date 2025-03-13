@@ -23,7 +23,7 @@ app.listen(PORT,()=> {
 }) ;
 
 // Connect to the database 
-import dbConnect from "./config/database.js" ;
+import dbConnect from "./utils/database.js" ;
 dbConnect() ;
 
 import userRouter from "./router/router_user.js";
