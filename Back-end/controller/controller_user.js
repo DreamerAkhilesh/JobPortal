@@ -250,9 +250,13 @@ export const updateProfile = async (req, res) => {
     try {
         const { fullName, email, phoneNumber, bio, skills } = req.body;
 
-        const file = req.file ;
-        const fileUri = getDataUri(file) ;
-        const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+        const cloudResponse = null;
+        if(res.file) {
+            const file = req.file ;
+            const fileUri = getDataUri(file) ;
+            cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+        }
+        
 
         if (!fullName || !email || !phoneNumber || !bio || !skills) {
             return res.status(400).json({

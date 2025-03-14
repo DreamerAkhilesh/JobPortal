@@ -4,7 +4,7 @@ const applicationSchema = mongoose.Schema(
     {
         job:{
             type:mongoose.Schema.Types.ObjectId,
-            ref:'job',
+            ref:'Job',
             required:true
         },
         applicant:{
@@ -21,4 +21,4 @@ const applicationSchema = mongoose.Schema(
     },{timestamps:true}
 ) ;
 
-export default mongoose.model("applicationSchema", applicationSchema) ;
+export default mongoose.model("Application", applicationSchema) ;

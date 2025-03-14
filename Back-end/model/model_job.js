@@ -42,8 +42,14 @@ const jobSchema = mongoose.Schema(
             type:mongoose.Schema.Types.ObjectId,
             ref:'User',
             required:true
-        }
+        },
+        applications: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Application',
+            }
+        ]
     },{timestamps:true}
 ) ;
 
-export default mongoose.model("jobSchema", jobSchema) ;
+export default mongoose.model("Job", jobSchema) ;
