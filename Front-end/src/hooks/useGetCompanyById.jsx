@@ -20,7 +20,7 @@ const useGetCompanyById = (companyId) => {
             }
         }
         fetchSingleCompany();
-    },[companyId, dispatch])
+    },[companyId, dispatch]) ;
 }
 
 export default useGetCompanyById

@@ -4,17 +4,17 @@ const companySchema = mongoose.Schema(
     {
         name:{
             type:String,
-            required:true 
+            required:true,
+            unique:true,
         },
         description:{
             type:String,
-            required:true
         },
         website:[{
             type:String
         }],
         location:{
-            type:Number,
+            type:String,
         },
         logo:{
             type:String, // URL to the company logo
