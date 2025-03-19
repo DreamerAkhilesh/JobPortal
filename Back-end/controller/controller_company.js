@@ -59,24 +59,68 @@ export const registerCompany = async(req , res) => {
 
 // get the company by its id
 
+// export const getCompany = async (req, res) => {
+//     try {
+//         console.log("Request for data recieved") ;
+//         const userId = req.id; // logged in user id
+//         const companies = await Company.find({ userId });
+//         if (!companies) {
+//             console.log("No Company found") ;
+//             return res.status(404).json({
+//                 message: "Companies not found.",
+//                 success: false
+//             })
+//         }
+//         console.log("Data Send from backend") ;
+//         return res.status(200).json({
+//             companies,
+//             success:true
+//         })
+//     } catch (error) {
+//         console.log("Error") ;
+//         console.log(error);
+//     }
+// }
+
 export const getCompany = async (req, res) => {
     try {
-        const userId = req.id; // logged in user id
-        const companies = await Company.find({ userId });
-        if (!companies) {
-            return res.status(404).json({
-                message: "Companies not found.",
-                success: false
-            })
+        // console.log("Request for data received");
+
+        const userId = req.userId; // Ensure this comes from middleware authentication
+        // Error faced: middleware was sending userId and I was trying to recieve id
+        if (!userId) {
+            return res.status(401).json({
+                success: false,
+                message: "Unauthorized: User ID not found."
+            });
         }
+
+        const companies = await Company.find({ userId });
+
+        if (companies.length === 0) {  // Fix: Check array length instead of null
+            console.log("No companies found");
+            return res.status(404).json({
+                success: false,
+                message: "No companies found."
+            });
+        }
+
+        // console.log("Data sent from backend");
         return res.status(200).json({
-            companies,
-            success:true
-        })
+            success: true,
+            companies
+        });
+
     } catch (error) {
-        console.log(error);
+        console.error("Error fetching companies:", error); // Improved error logging
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+            error: error.message // Send error message for debugging
+        });
     }
-}
+};
+
 
 export const getCompanyById = async(req , res) => {
     try {
