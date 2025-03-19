@@ -67,13 +67,21 @@ function Navbar() {
                 ) : (<Popover>
                     <PopoverTrigger asChild>
                     <Avatar className="cursor-pointer">
-                        <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn"></AvatarImage>
+                    { (!user?.profile?.profilePhoto) ?
+                        (<AvatarImage src="https://www.shutterstock.com/image-vector/circle-line-simple-design-logo-600nw-2174926871.jpg" alt="profile" />)
+                        :    
+                        (<AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn"></AvatarImage>)
+                    }
                     </Avatar>
                     </PopoverTrigger>
                     <PopoverContent className="w-80 ">
                         <div className="flex gap-4 space-y-2">
                             <Avatar className="cursor-pointer">
-                                <AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn"></AvatarImage>
+                            { (!user?.profile?.profilePhoto) ?
+                                (<AvatarImage src="https://www.shutterstock.com/image-vector/circle-line-simple-design-logo-600nw-2174926871.jpg" alt="profile" />)
+                                :    
+                                (<AvatarImage src={user?.profile?.profilePhoto} alt="@shadcn"></AvatarImage>)
+                            }    
                             </Avatar>
                             <div className="">
                                 <h4 className="font-medium">{user?.fullName}</h4>    

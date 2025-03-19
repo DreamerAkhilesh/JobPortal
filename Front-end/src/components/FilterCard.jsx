@@ -15,7 +15,7 @@ const fitlerData = [
     },
     {
         fitlerType: "Salary",
-        array: ["0 to 40k", "40k to 1lakh", "1lakh to 5lakh"]
+        array: ["0-40k", "42-1lakh", "1lakh to 5lakh"]
     },
 ]
 
@@ -56,4 +56,4 @@ const FilterCard = () => {
     )
 }
 
-export default FilterCard
+export default FilterCard ;

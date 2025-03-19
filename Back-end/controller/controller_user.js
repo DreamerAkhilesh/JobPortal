@@ -213,7 +213,7 @@ export const login = async (req, res) => {
 
         user = {
             _id: user._id,
-            fullname: user.fullName,
+            fullName: user.fullName,
             email: user.email,
             phoneNumber: user.phoneNumber,
             role: user.role,

@@ -22,4 +22,4 @@ const useGetAllJobs = () => {
     },[])
 }
 
-export default useGetAllJobs
+export default useGetAllJobs 

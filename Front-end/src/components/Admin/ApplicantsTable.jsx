@@ -16,9 +16,12 @@ const ApplicantsTable = () => {
         console.log('called');
         try {
             axios.defaults.withCredentials = true;
+            console.log("Request send to the backend") ;
             const res = await axios.post(`${APPLICATION_API_END_POINT}/status/${id}/update`, { status });
+
             console.log(res);
             if (res.data.success) {
+                console.log("Response recieved from the backend") ;
                 toast.success(res.data.message);
             }
         } catch (error) {
@@ -44,7 +47,7 @@ const ApplicantsTable = () => {
                     {
                         applicants && applicants?.applications?.map((item) => (
                             <tr key={item._id}>
-                                <TableCell>{item?.applicant?.fullname}</TableCell>
+                                <TableCell>{item?.applicant?.fullName}</TableCell>
                                 <TableCell>{item?.applicant?.email}</TableCell>
                                 <TableCell>{item?.applicant?.phoneNumber}</TableCell>
                                 <TableCell >

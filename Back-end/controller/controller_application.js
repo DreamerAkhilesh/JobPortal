@@ -5,7 +5,8 @@ export const applyJob = async(req , res) => {
     try {
         const userId = req.userId ;
         const jobId = req.params.id ;
-
+        // console.log("Request from frontend recieved") ;
+        console.log(jobId) ;
         if(!jobId) {
             return res.status(404).json({
                 message:"Job Not Found",
@@ -14,7 +15,7 @@ export const applyJob = async(req , res) => {
         } ;
 
         // check if the user had already applied for it or not 
-        const existingApplication = await application.findOne({job:jobId , applicant:userId}) ;
+        const existingApplication = await Application.findOne({job:jobId , applicant:userId}) ;
         if(existingApplication) {
             return res.status(400).json({
                 message:"The applicant has already applied for the role",
@@ -33,7 +34,7 @@ export const applyJob = async(req , res) => {
 
         // create new application 
 
-        const newpplication = await application.create({
+        const newpplication = await Application.create({
             job:jobId,
             applicant:userId
         }) ;
@@ -86,12 +87,13 @@ export const getAppliedJobs = async(req , res) => {
 
 export const getApplicants = async(req, res) => {
     try {
+        console.log("Request recieved") ;
         const jobId = req.params.id ;
         const job = await Job.findById(jobId).populate({
-            path: 'application',
+            path: 'applications',
             options: {sort:{createdAt:-1}},
             populate: {
-                path: 'applicants',
+                path: 'applicant',
                 options: {sort: {createdAt:-1}},
             }
         }) ;
@@ -116,6 +118,7 @@ export const updateStatus = async(req, res) => {
     try {
         const {status} = req.body ;
         const applicationId = req.params.id ;
+        console.log("Status updation request recieved at backend") ;
         if(!status) {
             return res.status(400).json({
                 message: "Status is required.",
@@ -123,7 +126,7 @@ export const updateStatus = async(req, res) => {
             }) ;
         } ;
         // find the application by application id
-        const application = await Application.findOne(applicationId) ;
+        const application = await Application.findOne({_id:applicationId}) ;
         if(!application) {
             return res.status(400).json({
                 message: "Application not found.",
@@ -132,7 +135,7 @@ export const updateStatus = async(req, res) => {
         } ;
 
         // update the status
-        application.status = status.toLowerCase ;
+        application.status = status.toLowerCase() ;
         await application.save() ;
         
         res.status(200).json({

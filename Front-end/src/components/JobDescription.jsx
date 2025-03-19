@@ -19,10 +19,12 @@ const JobDescription = () => {
     const dispatch = useDispatch();
 
     const applyJobHandler = async () => {
+        console.log("Applied button clicked") ;
         try {
             const res = await axios.get(`${APPLICATION_API_END_POINT}/apply/${jobId}`, {withCredentials:true});
             
             if(res.data.success){
+                console.log(data) ;
                 setIsApplied(true); // Update the local state
                 const updatedSingleJob = {...singleJob, applications:[...singleJob.applications,{applicant:user?._id}]}
                 dispatch(setSingleJob(updatedSingleJob)); // helps us to real time UI update
@@ -30,6 +32,7 @@ const JobDescription = () => {
 
             }
         } catch (error) {
+            console.log("Error happended in getting back the res from backend") ;
             console.log(error);
             toast.error(error.response.data.message);
         }
