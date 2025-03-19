@@ -9,20 +9,20 @@ import { useSelector } from 'react-redux';
 
 const Jobs = () => {
     const { allJobs, searchedQuery } = useSelector(store => store.job);
-    // const [filterJobs, setFilterJobs] = useState(allJobs);
+    const [filterJobs, setFilterJobs] = useState(allJobs);
 
-    // useEffect(() => {
-    //     if (searchedQuery) {
-    //         const filteredJobs = allJobs.filter((job) => {
-    //             return job.title.toLowerCase().includes(searchedQuery.toLowerCase()) ||
-    //                 job.description.toLowerCase().includes(searchedQuery.toLowerCase()) ||
-    //                 job.location.toLowerCase().includes(searchedQuery.toLowerCase())
-    //         })
-    //         setFilterJobs(filteredJobs)
-    //     } else {
-    //         setFilterJobs(allJobs)
-    //     }
-    // }, [allJobs, searchedQuery]);
+    useEffect(() => {
+        if (searchedQuery) {
+            const filteredJobs = allJobs.filter((job) => {
+                return job.title.toLowerCase().includes(searchedQuery.toLowerCase()) ||
+                    job.description.toLowerCase().includes(searchedQuery.toLowerCase()) ||
+                    job.location.toLowerCase().includes(searchedQuery.toLowerCase())
+            })
+            setFilterJobs(filteredJobs)
+        } else {
+            setFilterJobs(allJobs)
+        }
+    }, [allJobs, searchedQuery]);
 
     return (
         <div>
@@ -38,7 +38,7 @@ const Jobs = () => {
                                 <div className='grid grid-cols-3 gap-4'>
                                     {
                                         allJobs.map((job) => (
-                                            <Job/>
+                                            <Job key={job._id} job={job}/>
                                             // <motion.div
                                             //     initial={{ opacity: 0, x: 100 }}
                                             //     animate={{ opacity: 1, x: 0 }}

@@ -26,15 +26,15 @@ const useGetAllCompanies = () => {
         const fetchCompanies = async () => {
             console.log("Fetching companies...");
             try {
-                const token = document.cookie
-                    .split('; ')
-                    .find(row => row.startsWith('token='))
-                    ?.split('=')[1];
+                // const token = document.cookie
+                //     .split('; ')
+                //     .find(row => row.startsWith('token='))
+                //     ?.split('=')[1];
         
-                if (!token) {
-                    console.log("No token found!");
-                    return;
-                }
+                // if (!token) {
+                //     console.log("No token found!");
+                //     return;
+                // }
         
                 const res = await axios.get(`${COMPANY_API_END_POINT}/get`, {
                     headers: { Authorization: `Bearer ${token}` },

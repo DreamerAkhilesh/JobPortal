@@ -4,7 +4,7 @@ import Job from '../model/model_job.js' ;
 export const postJob = async(req , res) => {
     try {
         const {title, description, requirements, salary, location, jobType, experience, position, companyId} = req.body;
-        const userId = req.id ;
+        const userId = req.userId ;
 
         if(!title || !description || !requirements || !salary || !location || !jobType || !experience || !position || !companyId) {
             return res.status(404).json({
@@ -36,32 +36,32 @@ export const postJob = async(req , res) => {
 }
 
 // student user perspective
-export const getAllJobs = async(req , res) => {
+export const getAllJobs = async (req, res) => {
     try {
-        const keyword = req.query.keyword || "" ;
+        const keyword = req.query.keyword || "";
         const query = {
-            $or:[
-                {title:{$regrex:keyword , $options:"i"}},
-                {description:{$regrex:keyword} , $options:"i"}
+            $or: [
+                { title: { $regex: keyword, $options: "i" } },
+                { description: { $regex: keyword, $options: "i" } },
             ]
-        } ;
-        const jobs = await Job.find(query) // will use populate here later as this is usually asked in the interviews
-                    .populate({path:"company"}).sort({createdAt:-1}) ;
-        if(!jobs) {
-            return res.status(400).json({
-                message:"No job was found.",
-                success:false
-            }) ;
-        } ;
-
+        };
+        const jobs = await Job.find(query).populate({
+            path: "company"
+        }).sort({ createdAt: -1 });
+        if (!jobs) {
+            return res.status(404).json({
+                message: "Jobs not found.",
+                success: false
+            })
+        };
         return res.status(200).json({
-            message:"Job found successfully",
+            message:"Hello Jobs",
             jobs,
-            success:true
-        }) ;
-    } 
-    catch (error) {
-        console.log(error) ;
+            success: true
+        })
+    } catch (error) {
+        message:"Hello Jobs Bitch",
+        console.log(error);
     }
 }
 
@@ -95,7 +95,7 @@ export const getJobById = async(req , res)=> {
 // all the jobs created till now
 export const getAdminJob = async (req, res) => {
     try {
-        const adminId = req.id;
+        const adminId = req.userId;
         const jobs = await Job.find({ created_by: adminId }).populate({
             path:'company',
             createdAt:-1

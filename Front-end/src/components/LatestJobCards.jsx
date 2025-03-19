@@ -24,4 +24,4 @@ const LatestJobCards = ({job}) => {
     )
 }
 
-export default LatestJobCards
+export default LatestJobCards ;

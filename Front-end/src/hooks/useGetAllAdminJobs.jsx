@@ -9,6 +9,15 @@ const useGetAllAdminJobs = () => {
     useEffect(()=>{
         const fetchAllAdminJobs = async () => {
             try {
+                // const token = document.cookie
+                //     .split('; ')
+                //     .find(row => row.startsWith('token='))
+                //     ?.split('=')[1];
+        
+                // if (!token) {
+                //     console.log("No token found!");
+                //     return;
+                // }
                 const res = await axios.get(`${JOB_API_END_POINT}/getadminjobs`,{withCredentials:true});
                 if(res.data.success){
                     dispatch(setAllAdminJobs(res.data.jobs));
