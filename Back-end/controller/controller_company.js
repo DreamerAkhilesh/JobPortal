@@ -35,29 +35,49 @@ export const registerCompany = async(req , res) => {
     }
 }
 
-export const getCompany = async(req , res) => {
-    try {
-        const userId = req.id ;
-        const companies = await Company.find({userId}) ;
-        if(!companies) {
-            return res.status(404).json({
-                message:'No such company is found (ERROR 404) .',
-                success:false
-            }) ;
-        } ;
+// export const getCompany = async(req , res) => {
+//     try {
+//         const userId = req.id ;
+//         const companies = await Company.find({userId}) ;
+//         if(!companies) {
+//             return res.status(404).json({
+//                 message:'No such company is found (ERROR 404) .',
+//                 success:false
+//             }) ;
+//         } ;
 
+//         return res.status(200).json({
+//             message:"Found the company",
+//             companies,
+//             success:true
+//         }) ;
+//     } 
+//     catch (error) {
+//         console.log(error) ;
+//     }
+// }
+
+// get the company by its id
+
+export const getCompany = async (req, res) => {
+    try {
+        const userId = req.id; // logged in user id
+        const companies = await Company.find({ userId });
+        if (!companies) {
+            return res.status(404).json({
+                message: "Companies not found.",
+                success: false
+            })
+        }
         return res.status(200).json({
-            message:"Found the company",
             companies,
             success:true
-        }) ;
-    } 
-    catch (error) {
-        console.log(error) ;
+        })
+    } catch (error) {
+        console.log(error);
     }
 }
 
-// get the company by its id
 export const getCompanyById = async(req , res) => {
     try {
         const companyId = req.params.id ;

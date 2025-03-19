@@ -3,7 +3,7 @@ const router = express.Router() ;
 
 
 import isAuthenticated from "../middleware/isAuthenticated.js";
-import {registerCompany , getCompany, getCompanyById, updateCompany } from "../controller/controller_company.js";
+import {registerCompany, getCompany, getCompanyById, updateCompany } from "../controller/controller_company.js";
 import { singleUpload } from "../middleware/multer.js"; //middleware wherever file upload is needed
 
 
