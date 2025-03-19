@@ -16,6 +16,13 @@ const isAuthenticated = async (req, res, next) => {
         // Decode token to get user information
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
 
+        if(!decoded){
+            return res.status(401).json({
+                message:"Invalid token",
+                success:false
+            })
+        };
+
         // If token is valid, decoded will have the user data
         req.userId = decoded.userId; // store the user ID in the request object
         next(); // Proceed to the next middleware or route handler

@@ -16,11 +16,13 @@ const useGetAllCompanies = () => {
                     dispatch(setCompanies(res.data.companies));
                 }
             } catch (error) {
+                console.log("Error YO YO");
                 console.log(error);
             }
         }
         fetchCompanies();
-    },[])
+        
+    },[dispatch]) ;
 }
 
-export default useGetAllCompanies
+export default useGetAllCompanies ;
