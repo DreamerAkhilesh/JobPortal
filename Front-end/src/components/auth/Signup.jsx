@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../shared/Navbar'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
@@ -8,6 +8,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { USER_API_END_POINT } from '../../utils/constant'
 import axios from 'axios'
 import { toast } from 'sonner'
+
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading } from '../../redux/authSlice'
 
@@ -27,7 +28,8 @@ const Signup = () => {
     const {loading} =useSelector(store => store.auth) ;
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
+    const selector = useSelector(store => store.auth) ;
+    const { user } = selector; // Destructure the user from the auth state
     // whenever these handlers are called they are doing the following 
     // putting all the rest of the input values same as before but changing the targetted value only.
     const changeEventHandler = (e) => {
